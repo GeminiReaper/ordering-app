@@ -2,19 +2,31 @@ package com.davidyoon.orderapp.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+@Entity
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "orderedProductId")
 public class OrderedProduct {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long orderedProductId;
 	
+	@OneToOne
 	@JoinColumn(name="productId")
 	private Product product;
 	
@@ -22,22 +34,22 @@ public class OrderedProduct {
 	
 	private LocalDateTime createdDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_order")
-	private Order order;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "orderListId")
+	private OrderList orderList;
 	
 	public OrderedProduct() {
 		
 	}
 
 	public OrderedProduct(long orderedProductId, Product product, Integer quantity, LocalDateTime createdDate,
-			Order order) {
+			OrderList orderList) {
 		super();
 		this.orderedProductId = orderedProductId;
 		this.product = product;
 		this.quantity = quantity;
 		this.createdDate = createdDate;
-		this.order = order;
+		this.orderList = orderList;
 	}
 
 	/**
@@ -99,15 +111,15 @@ public class OrderedProduct {
 	/**
 	 * @return the order
 	 */
-	public Order getOrder() {
-		return order;
+	public OrderList getOrderList() {
+		return orderList;
 	}
 
 	/**
-	 * @param order the order to set
+	 * @param orderList the order to set
 	 */
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrderList(OrderList orderList) {
+		this.orderList = orderList;
 	}
 
 	/* (non-Javadoc)
@@ -116,7 +128,7 @@ public class OrderedProduct {
 	@Override
 	public String toString() {
 		return "OrderedProduct [orderedProductId=" + orderedProductId + ", product=" + product + ", quantity="
-				+ quantity + ", createdDate=" + createdDate + ", order=" + order + "]";
+				+ quantity + ", createdDate=" + createdDate + ", order=" + orderList + "]";
 	}
 	
 }

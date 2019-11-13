@@ -10,8 +10,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import com.davidyoon.orderapp.model.Order;
-import com.davidyoon.orderapp.repository.OrderRepository;
+import com.davidyoon.orderapp.model.OrderList;
+import com.davidyoon.orderapp.model.OrderedProduct;
+import com.davidyoon.orderapp.model.Product;
+import com.davidyoon.orderapp.repository.OrderListRepository;
 
 @SpringBootApplication
 public class OrderAppApplication {

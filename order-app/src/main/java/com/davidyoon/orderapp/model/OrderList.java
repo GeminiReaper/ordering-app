@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,12 +13,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
-public class Order {
+@JsonIdentityInfo(
+				  generator = ObjectIdGenerators.PropertyGenerator.class, 
+				  property = "orderListId")
+public class OrderList {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long orderId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long orderListId;
 	
 	/*********************************
 	 *  Customer Information
@@ -40,17 +48,18 @@ public class Order {
 	private LocalDateTime dueDate;
 	
 	@OneToMany(
-		mappedBy="order",
+		mappedBy="orderList",
+		fetch= FetchType.EAGER,
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
 	private List<OrderedProduct> orderedProducts;
 	
-	public Order() {
+	public OrderList() {
 		
 	}
 	
-	public Order(String lastName, String firstName, String companyName, String email,
+	public OrderList(String lastName, String firstName, String companyName, String email,
 			String contactNumber, LocalDateTime creationDate, LocalDateTime dueDate, List<OrderedProduct> orderedProducts) {
 		super();
 		this.lastName = lastName;
@@ -66,15 +75,15 @@ public class Order {
 	/**
 	 * @return the orderId
 	 */
-	public long getOrderId() {
-		return orderId;
+	public long getOrderListId() {
+		return orderListId;
 	}
 
 	/**
 	 * @param orderId the orderId to set
 	 */
-	public void setOrderId(long orderId) {
-		this.orderId = orderId;
+	public void setOrderListId(long orderListId) {
+		this.orderListId = orderListId;
 	}
 
 	/**
@@ -202,7 +211,7 @@ public class Order {
 	 */
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", lastName=" + lastName + ", firstName=" + firstName + ", companyName="
+		return "Order [orderId=" + orderListId + ", lastName=" + lastName + ", firstName=" + firstName + ", companyName="
 				+ companyName + ", email=" + email + ", contactNumber=" + contactNumber + ", creationDate="
 				+ creationDate + ", dueDate=" + dueDate + "]";
 	}
