@@ -1,5 +1,6 @@
 package com.davidyoon.orderapp.restcontroller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,7 +13,6 @@ import com.davidyoon.orderapp.model.OrderList;
 import com.davidyoon.orderapp.repository.OrderListRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class OrderListController {
 	
 	private final OrderListRepository orderListRepository;
@@ -27,7 +27,13 @@ public class OrderListController {
     }
  
     @PostMapping("/orders")
-    void addOrder(@RequestBody OrderList orderList) {
-    	orderListRepository.save(orderList);
+    public OrderList addOrder(@RequestBody OrderList orderList) {
+    	
+    	System.out.println(orderList.toString());
+    	if(orderList.getCreationDate() == null) {
+    		orderList.setCreationDate(LocalDateTime.now());
+    	}
+    	
+    	return orderListRepository.save(orderList);
     } 
 }

@@ -3,6 +3,7 @@ package com.davidyoon.orderapp.restcontroller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,6 @@ import com.davidyoon.orderapp.model.OrderedProduct;
 import com.davidyoon.orderapp.repository.OrderedProductRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class OrderedProductController {
 	
 	private final OrderedProductRepository orderedProductRepository;
@@ -25,7 +25,7 @@ public class OrderedProductController {
 		this.orderedProductRepository = orderedProductRepository;
 	}
 	
-	@GetMapping("/{orderId}/orderedProducts")
+	@GetMapping("/orders/{orderId}/orderedProducts")
     public List<OrderedProduct> getOrderedProducts(@PathVariable long orderId) {
         
         
@@ -33,9 +33,17 @@ public class OrderedProductController {
 															  .filter((order) -> order.getOrderList().getOrderListId() != orderId)
 															  .collect(Collectors.toList());
     }
+	
+	@GetMapping("/orderedProducts")
+	public List<OrderedProduct> getAllOrderedProducts() {
+		return (List<OrderedProduct>) orderedProductRepository.findAll();
+	}
+	
  
-    @PostMapping("/{orderId}/orderedProducts")
-    void addOrderedProduct(@RequestBody OrderedProduct orderedProduct) {
-    	orderedProductRepository.save(orderedProduct);
+    @PostMapping("/orders/{orderId}/orderedProducts")
+    public List<OrderedProduct> addOrderedProducts(@RequestBody List<OrderedProduct> orderedProduct) {
+    	orderedProduct.stream().forEach((op) -> orderedProductRepository.save(op));
+    	
+    	return orderedProduct;
     } 
 }

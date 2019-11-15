@@ -14,7 +14,6 @@ import com.davidyoon.orderapp.repository.OrderListRepository;
 import com.davidyoon.orderapp.repository.ProductRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 	private final ProductRepository productRepository;
 	
