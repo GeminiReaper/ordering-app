@@ -1,0 +1,111 @@
+<div class="container-fluid">
+	
+	<h1>Order Form</h1>
+	
+	<div class="container">
+		<form data-ng-submit="order.submit(order.orderForm)" name="order.orderForm" no-validate>
+			<div class="row">
+				<div class="col-sm-6">
+					<label>Last Name</label>
+					<input class="form-control" type="text" data-ng-model="orderForm.lastName" data-ng-required="order.formFlags.required"/>
+				</div>
+				
+				<div class="col-sm-6">
+					<label>First Name</label>
+					<input class="form-control" type="text" data-ng-model="orderForm.firstName" data-ng-required="order.formFlags.required"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-12">
+					<label>Company Name</label>
+					<input class="form-control" type="text" data-ng-model="orderForm.companyName"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-3">
+					<label>Contact Number</label>
+					<input class="form-control" type="text" data-ng-model="orderForm.contactNumber"/>
+				</div>
+				<div class="col-sm-9">
+					<label>Email</label>
+					<input class="form-control" type="text" data-ng-model="orderForm.email"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-sm-6">
+					<label>Due Date</label>
+
+		        	<p class="input-group">
+		          		<input type="text" class="form-control" uib-datepicker-popup="{{order.calendar.format}}" ng-model="orderForm.dueDate" is-open="order.calendar.opened" datepicker-options="order.dateOptions" ng-required="true" close-text="Close"/>
+			          	<span class="input-group-btn">
+			            	<button type="button" class="btn btn-default" ng-click="order.open(1)"><i class="fas fa-calendar"></i></button>
+			          	</span>
+		        	</p>
+			      	
+				</div>
+				
+				<div class="col-sm-6">
+					<label>Creation Date</label>
+
+		        	<p class="input-group">
+		          		<input type="text" class="form-control" uib-datepicker-popup="{{order.calendar.format}}" ng-model="orderForm.creationDate" is-open="order.calendar.opened2" datepicker-options="order.dateOptions" data-ng-readonly="true" close-text="Close"/>
+			          	<span class="input-group-btn">
+			            	<button type="button" class="btn btn-default" ng-click="order.open(2)" disabled><i class="fas fa-calendar"></i></button>
+			          	</span>
+		        	</p>
+			      	
+				</div>
+			</div>
+			
+			<div class="row">
+				<label class="col-sm-1">Items</label>
+				
+				<div class="col-sm-6">
+					<select class="form-control" data-ng-model="order.selectedProduct.product" data-ng-options="item as item.productName for item in order.productList track by item.productId">
+						<option value>Select Item</option>
+					</select>
+				</div>
+				
+				<div class="col-sm-3">
+					<input type="number" min="0" class="form-control"data-ng-model="order.selectedProduct.quantity"/>
+				</div>
+				
+				<button type="button" class="btn btn-success" data-ng-click="order.addItem(order.selectedProduct)">Add</button>
+				
+			</div>
+			<div class="row" style="padding: 10px 0px" data-ng-if="order.activeList.length">
+				<div class="col-sm-12">
+					<div class="well">
+						<table class="table table-dark">
+							
+							<thead>
+								<tr>
+									<th>Product Name</th>
+									<th>Description</th>
+									<th>Quantity</th>
+								</tr>
+							</thead>
+							
+							<tbody>
+								<tr data-ng-repeat="item in order.activeList">
+									<td>{{item.product.productName}}</td>
+									<td>{{item.product.productDescription}}</td>
+									<td>{{item.quantity}}</td>
+								</tr>
+							</tbody>
+						
+						</table>
+					</div>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn bt-success">Submit</button>
+		</form>
+	</div>
+	
+	<pre>{{order.saveResponse | json}}</pre>
+	
+</div>
