@@ -1,0 +1,45 @@
+<div class="container-fluid">
+	<h1>Order View</h1>
+	
+	<button type="button" class="btn btn-info" data-ng-click="main.newOrderBtn()">New Order</button>
+	<div class="table-responsive">
+		<table class="table table-borderless">
+		
+			<thead class="thead-dark">
+				<tr>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th>Email</th>
+					<th>Contact</th>
+					<th>Company</th>
+					<th>Creation Date</th>
+					<th>Due Date</th>
+					<th>Ordered Products</th>
+					
+				</tr>
+				
+			</thead>
+			
+			<tbody>
+				
+				<tr data-ng-repeat="order in orderList">
+					<td>{{order.lastName}}</td>
+					<td>{{order.firstName}}</td>
+					<td>{{order.email}}</td>
+					<td>{{order.contactNumber}}</td>
+					<td>{{order.companyName}}</td>
+					<td>{{order.creationDate | date}}</td>
+					<td>{{order.dueDate | date}}</td>
+					<td>
+						<ul>
+							<li data-ng-repeat="item in order.orderedProducts">{{item.product.productName}} - {{item.quantity}}x</li>
+						</ul>
+					</td>
+					
+				</tr>
+			</tbody>
+		
+		</table>
+	</div>
+	
+</div>
